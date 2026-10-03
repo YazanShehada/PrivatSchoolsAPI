@@ -29,21 +29,18 @@
     </div>
     
 
-    <div id="students-grid" class="card-grid" hidden></div>
+    <div id="students-list" hidden>
+        <div class="grid-toolbar">
+            <a href="/Home/Student/Add" class="btn btn-primary btn-sm">
+                <i class="bi bi-person-plus"></i>
+                إضافة طالب
+            </a>
+        </div>
+        <div id="students-grid" class="card-grid"></div>
+    </div>
 
     <!-- ---------- selected student ---------- -->
     <section id="student-panel" hidden>
-        <div class="student-hero">
-            <div class="student-hero-top">
-                <div id="stu-avatar"></div>
-                <div>
-                    <h3 id="stu-name"></h3>
-                    <p id="stu-sub"></p>
-                </div>
-            </div>
-
-        </div>
-
         <!-- tabs -->
         <ul class="nav nav-pills tab-pills" id="student-tabs" role="tablist">
             <li class="nav-item" role="presentation">
@@ -107,6 +104,24 @@
             </div>
         </div>
     </section>
+</div>
+
+<!-- ---------- choose a student popup ---------- -->
+<div id="student-picker" class="modal" role="dialog" aria-modal="true" aria-labelledby="student-picker-title">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="student-picker-title">اختر طالباً</h3>
+            <button type="button" class="modal-close" data-close aria-label="إغلاق">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-hint">لديك أكثر من طالب مسجل، اختر الطالب الذي تريد عرض بياناته.</p>
+            <div id="student-picker-list" class="card-grid"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" data-close>إغلاق</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="toasts" class="toasts"></div>

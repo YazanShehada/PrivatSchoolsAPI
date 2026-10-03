@@ -112,14 +112,31 @@
         if (el) el.hidden = !show;
     }
 
+    function cardHtml(s) {
+        var meta = s.age !== null ? s.age + " سنة" : "";
+
+        return (
+            '<button type="button" class="student-card' +
+            (state.selectedId === s.id ? " is-selected" : "") +
+            '" data-student-id="' + esc(s.id) + '">' +
+            '<div class="student-card-body">' +
+            avatarHtml(s) +
+            '<div class="student-name">' + esc(s.name) + "</div>" +
+            '<div class="student-meta">' + (meta ? esc(meta) : "—") + "</div>" +
+            "</div>" +
+            "</button>"
+        );
+    }
+
     function renderCards() {
         var grid = $("#students-grid");
+        var list = $("#students-list");
         var empty = $("#students-empty");
         var count = $("#students-count");
-        if (!grid) return;
+        if (!grid || !list) return;
 
         if (!state.students.length) {
-            grid.hidden = true;
+            list.hidden = true;
             grid.innerHTML = "";
             if (empty) empty.hidden = false;
             if (count) count.textContent = "";
@@ -127,25 +144,10 @@
         }
 
         if (empty) empty.hidden = true;
-        grid.hidden = false;
+        list.hidden = false;
         if (count) count.textContent = "عدد الطلاب: " + state.students.length;
 
-        grid.innerHTML = state.students.map(function (s) {
-            var meta = s.age !== null ? s.age + " سنة" : "";
-
-            return (
-                '<button type="button" class="student-card' +
-                (state.selectedId === s.id ? " is-selected" : "") +
-                '" data-student-id="' + esc(s.id) + '">' +
-                '<div class="student-card-top">' +
-                avatarHtml(s) +
-                "<div>" +
-                '<div class="student-name">' + esc(s.name) + "</div>" +
-                '<div class="student-meta">' + (meta ? esc(meta) : "—") + "</div>" +
-                "</div></div>" +
-                "</button>"
-            );
-        }).join("");
+        grid.innerHTML = state.students.map(cardHtml).join("");
     }
 
     function selectStudent(id) {
@@ -154,7 +156,6 @@
 
         state.selectedId = student.id;
         renderCards();
-        renderPanel(student);
 
         var panel = $("#student-panel");
         if (panel) {
@@ -168,20 +169,19 @@
         loadAbsences(student.id);
     }
 
-    // ===================== student info =====================
-    // summary only: name, age and avatar — no private details (address, phones, parents' jobs…)
-    function renderPanel(s) {
-        var avatar = $("#stu-avatar");
-        if (avatar) avatar.innerHTML = avatarHtml(s);
+    // ===================== student picker popup =====================
+    function openPicker() {
+        var modal = $("#student-picker");
+        var list = $("#student-picker-list");
+        if (!modal || !list) return;
 
-        var age = s.age;
-        var name = $("#stu-name");
-        if (name) name.textContent = s.name || "";
+        list.innerHTML = state.students.map(cardHtml).join("");
+        modal.classList.add("open");
+    }
 
-        var sub = $("#stu-sub");
-        if (sub) {
-            sub.textContent = age !== null ? "العمر: " + age + " سنة" : "";
-        }
+    function closePicker() {
+        var modal = $("#student-picker");
+        if (modal) modal.classList.remove("open");
     }
 
     // ===================== tabs =====================
@@ -330,6 +330,29 @@
             });
         }
 
+        // picking a student from the popup
+        var pickerList = $("#student-picker-list");
+        if (pickerList) {
+            pickerList.addEventListener("click", function (e) {
+                var card = e.target.closest(".student-card");
+                if (!card) return;
+                selectStudent(card.getAttribute("data-student-id"));
+                closePicker();
+            });
+        }
+
+        // close the popup (overlay, close buttons, Escape)
+        document.addEventListener("click", function (e) {
+            var closer = e.target.closest("[data-close]");
+            if (closer) {
+                var modal = closer.closest(".modal");
+                if (modal) modal.classList.remove("open");
+            }
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") closePicker();
+        });
+
         var tabs = $("#student-tabs");
         if (tabs) {
             tabs.addEventListener("click", function (e) {
@@ -359,6 +382,9 @@
                 // single student -> open it straight away
                 if (state.students.length === 1) {
                     selectStudent(state.students[0].id);
+                } else if (state.students.length > 1) {
+                    // more than one student -> ask which one to open
+                    openPicker();
                 }
             });
     }

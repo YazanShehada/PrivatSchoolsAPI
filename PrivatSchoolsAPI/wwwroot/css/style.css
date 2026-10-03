@@ -409,6 +409,13 @@ a {
     gap: 16px;
 }
 
+/* "add student" button sitting on the top-left corner of the summary cards */
+.grid-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 14px;
+}
+
 .student-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -435,19 +442,22 @@ a {
     box-shadow: 0 0 0 3px rgba(23, 162, 74, 0.18);
 }
 
-.student-card-top {
+/* photo on top, centered — name and age below it */
+.student-card-body {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
+    text-align: center;
 }
 
-.student-card-top .student-name {
+.student-card-body .student-name {
     font-size: 16px;
     font-weight: 700;
     color: var(--text);
 }
 
-.student-card-top .student-meta {
+.student-card-body .student-meta {
     color: var(--text-muted);
     font-size: 13px;
 }
@@ -507,32 +517,8 @@ a {
     margin-bottom: 18px;
 }
 
-.student-hero-top {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding-bottom: 16px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-}
-
-.student-hero-top .avatar,
-.student-hero-top .avatar-fallback {
-    width: 72px;
-    height: 72px;
-    font-size: 24px;
-}
-
-.student-hero-top h3 {
-    font-size: 19px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.student-hero-top p {
-    color: var(--text-muted);
-    font-size: 13px;
-    margin: 0;
+#student-panel {
+    margin-top: 18px;
 }
 
 .detail-grid {
@@ -813,6 +799,12 @@ a {
     padding: 20px;
 }
 
+.modal-hint {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0 0 14px;
+}
+
 .modal-actions {
     display: flex;
     justify-content: flex-end;
@@ -965,15 +957,11 @@ a {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .student-card-top .avatar,
-    .student-card-top .avatar-fallback {
+    .student-card-body .avatar,
+    .student-card-body .avatar-fallback {
         width: 46px;
         height: 46px;
         font-size: 15px;
-    }
-
-    .student-hero-top {
-        align-items: flex-start;
     }
 
     .student-info {
