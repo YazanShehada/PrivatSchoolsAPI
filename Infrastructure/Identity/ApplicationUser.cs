@@ -12,12 +12,8 @@ namespace PrivatSchoolsAPI.Infrastructure.Identity
     {
         public string FullName { get; set; }
 
-        public IsActive IsActive { get; set; } = IsActive.Active;
+        public bool IsActive { get; set; } = true;
 
     }
-    public enum IsActive
-    {
-        Active = 1,
-        Inactive = 2
-    }
+    
 }

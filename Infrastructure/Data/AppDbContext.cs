@@ -1,4 +1,5 @@
 ﻿using Application.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PrivatSchoolsAPI.Domain.Entities;
@@ -27,6 +28,8 @@ namespace PrivatSchoolsAPI.Infrastructure.Data
                 .HasForeignKey(x => x.ApplicationUserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     }
 }

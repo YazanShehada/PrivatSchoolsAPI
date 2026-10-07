@@ -21,9 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer
 (builder.Configuration.GetConnectionString("MyConnection")));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>()
+builder.Services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
-
 
 builder.Services.AddRazorPages();
 
@@ -53,6 +52,16 @@ builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider
+        .GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider
+        .GetRequiredService<UserManager<ApplicationUser>>();
+
+    await IdentitySeeder.SeedRolesAsync(roleManager, userManager);
+}
 
 if (app.Environment.IsDevelopment())
 {
