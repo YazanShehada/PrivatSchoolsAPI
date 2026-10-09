@@ -21,6 +21,7 @@ namespace Application.Features.Students.Command.UpdateStudent
             else
             {
                 student.Name = request.StudentName ?? student.Name;
+                student.StudentStatus = request.StudentStatus ?? student.StudentStatus;
                 student.BirthPlace = request.StudentBirthPlace ?? student.BirthPlace;
                 student.BirthDate = request.StudentBirthDate;
                 student.Address = request.StudentAddress ?? student.Address;

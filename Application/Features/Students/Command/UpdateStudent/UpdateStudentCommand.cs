@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using Domain.Enums;
+using MediatR;
 
 namespace Application.Features.Students.Command.UpdateStudent
 {
     public record UpdateStudentCommand(Guid Id,
     string StudentName,
+    StudentStatus? StudentStatus,
     string StudentBirthPlace,
     DateTime StudentBirthDate,
     string? StudentAddress,

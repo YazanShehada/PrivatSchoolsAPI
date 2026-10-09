@@ -1,9 +1,12 @@
-﻿namespace Application.Features.Students.Responses
+﻿using Domain.Enums;
+
+namespace Application.Features.Students.Responses
 {
     public class StudentDetailsResponse
     {
 
         public Guid StudentId { get; set; }
+        public StudentStatus  StudentStatus { get; set; }
         public string StudentName { get; set; }
         public string StudentBirthPlace { get; set; }
         public DateTime StudentBirthDate { get; set; }

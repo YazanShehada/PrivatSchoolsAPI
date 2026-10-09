@@ -75,7 +75,8 @@ namespace PrivatSchoolsAPI.Areas.Identity.Pages.Account
                     FullName = Input.FullName,
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                var roleResult = await _userManager.AddToRoleAsync(user, "User");
+                if (result.Succeeded && roleResult.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -83,6 +84,10 @@ namespace PrivatSchoolsAPI.Areas.Identity.Pages.Account
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                foreach (var error in roleResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

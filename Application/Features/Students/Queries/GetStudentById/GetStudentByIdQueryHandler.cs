@@ -27,6 +27,7 @@ namespace Application.Features.Students.Queries.GetStudentById
                 StudentDetailsResponse studentDetails = new StudentDetailsResponse
                 {
                     StudentId = student.Id,
+                    StudentStatus = student.StudentStatus,
                     StudentName = student.Name,
                     StudentBirthDate = student.BirthDate,
                     StudentBirthPlace = student.BirthPlace,

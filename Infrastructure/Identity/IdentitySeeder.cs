@@ -22,17 +22,17 @@ namespace Infrastructure.Identity
                     await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
-            const string adminEmail = "admin@privateschools.com";
+            const string adminPhone = "0912345678";
             const string adminPassword = "Admin123!";
 
-            var admin = await userManager.FindByEmailAsync(adminEmail);
+            var admin = await userManager.FindByNameAsync(adminPhone);
 
             if (admin is null)
             {
                 admin = new ApplicationUser
                 {
-                    UserName = adminEmail,
-                    Email = adminEmail,
+                    UserName = adminPhone,
+                    PhoneNumber = adminPhone,
                     EmailConfirmed = true,
                     FullName = "System Admin",
                     IsActive = true,

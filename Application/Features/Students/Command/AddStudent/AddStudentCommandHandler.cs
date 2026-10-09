@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.Features.Students.Command.AddStudent;
 using Application.Features.Students.Responses;
+using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using PrivatSchoolsAPI.Domain.Entities;
@@ -21,6 +22,7 @@ namespace Application.Features.Students.Command
                 Id = Guid.CreateVersion7(),
                 Name = request.StudentName,
                 ApplicationUserId = user.UserId,
+                StudentStatus = StudentStatus.Pending,
                 BirthDate = request.StudentBirthDate,
                 BirthPlace = request.StudentBirthPlace,
                 Address = request.StudentAddress,

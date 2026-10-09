@@ -1,11 +1,12 @@
-﻿namespace PrivatSchoolsAPI.Domain.Entities
+﻿using Domain.Enums;
+
+namespace PrivatSchoolsAPI.Domain.Entities
 {
     public class Student
     {
         public Guid Id { get; set; }
-
         public string ApplicationUserId { get; set; } = null!;
-
+        public  StudentStatus StudentStatus { get; set; } 
         public string Name { get; set; }
         public string BirthPlace { get; set; }
         public DateTime BirthDate { get; set; }

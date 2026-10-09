@@ -3,17 +3,14 @@ using Application.Behaviors;
 using Application.Common;
 using Application.Services;
 using FluentValidation;
+using Infrastructure.Identity;
 using Infrastructure.Services;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PrivatSchoolsAPI.Infrastructure.Data;
 using PrivatSchoolsAPI.Infrastructure.Identity;
-using System.Reflection;
-using Microsoft.AspNetCore.Identity.UI;
 using Scalar.AspNetCore;
-using Microsoft.AspNetCore.Identity;
-using Infrastructure.Identity;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +18,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer
 (builder.Configuration.GetConnectionString("MyConnection")));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>()
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+})
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddRazorPages();

@@ -12,6 +12,7 @@ using PrivatSchoolsAPI.API.Requests.Student;
 
 namespace PrivatSchoolsAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : Controller
@@ -24,9 +25,6 @@ namespace PrivatSchoolsAPI.Controllers
         }
 
         private readonly IMediator _mediator;
-
-
-       
 
         /// <summary>
         /// Get all students from the system
@@ -44,6 +42,7 @@ namespace PrivatSchoolsAPI.Controllers
         }
 
         [HttpGet("Summery/{id}")]
+
         public async Task<IActionResult> GetStudentSummeryById(Guid id)
         {
             var result = await _mediator.Send(new GetStudentSummeryByIdQuery(id));

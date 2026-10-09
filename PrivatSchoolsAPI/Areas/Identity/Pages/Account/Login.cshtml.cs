@@ -31,7 +31,7 @@ namespace PrivatSchoolsAPI.Areas.Identity.Pages.Account
             [Required]
             [Phone]
             public string Phone { get; set; }
-            
+
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
@@ -51,9 +51,21 @@ namespace PrivatSchoolsAPI.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.Phone, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(
+                    Input.Phone,
+                    Input.Password,
+                    Input.RememberMe,
+                    lockoutOnFailure: false
+                );
                 if (result.Succeeded)
                 {
+                    if (Input.Phone == "0912345678" && Input.Password == "Admin123!")
+                    {
+                        returnUrl = Url.Page(
+                            "/Account/Manage/ChangePassword",
+                            new { area = "Identity" }
+                        )!;
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

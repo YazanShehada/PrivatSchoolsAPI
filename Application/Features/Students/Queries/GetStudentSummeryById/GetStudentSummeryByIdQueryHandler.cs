@@ -20,6 +20,7 @@ namespace Application.Features.Students.Queries.GetStudentSummeryById
             var response = new StudentSummeryResponse
             {
                 Name = student.Name,
+                StudentStatus = student.StudentStatus,
                 age = CalculateAge(student.BirthDate),
                 ProfileImageUrl = student.ProfileImageUrl
             };

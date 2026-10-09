@@ -26,7 +26,7 @@ namespace Application.Features.Students.Handelers.GetAllStudents
             return await _cache.GetOrSetAsync(cacheKey, async () =>
             {
                 return await _context.Students.ToListAsync(cancellationToken);
-            }, TimeSpan.FromMinutes(2));
+            }, TimeSpan.FromMinutes(1));
             //return await _context.Students.ToListAsync(cancellationToken);
         }
     }
