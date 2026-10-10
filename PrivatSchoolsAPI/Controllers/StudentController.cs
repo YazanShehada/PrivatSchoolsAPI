@@ -179,6 +179,7 @@ namespace PrivatSchoolsAPI.Controllers
             var command = new UpdateStudentCommand(
                 id,
                 student.StudentName,
+                student.StudentStatus,
                 student.StudentBirthPlace,
                 student.StudentBirthDate,
                 student.StudentAddress,

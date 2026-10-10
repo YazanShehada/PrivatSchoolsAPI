@@ -1,10 +1,11 @@
-﻿namespace PrivatSchoolsAPI.API.Requests.Student
+﻿using Domain.Enums;
+
+namespace PrivatSchoolsAPI.API.Requests.Student
 {
     public class UpdateStudentRequest
     {
-
-
         public string StudentName { get; set; }
+        public StudentStatus StudentStatus { get; set; }
         public string StudentBirthPlace { get; set; }
         public DateTime StudentBirthDate { get; set; }
         public string? StudentAddress { get; set; }
