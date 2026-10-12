@@ -88,6 +88,15 @@
             .toUpperCase();
     }
 
+    function statusBadge(status) {
+        var text = "", cls = "badge-neutral";
+        if (status === 1 || status === "Approved") { text = "Approved"; cls = "badge-success"; }
+        else if (status === 2 || status === "Pending") { text = "Pending"; cls = "badge-warning"; }
+        else if (status === 3 || status === "Rejected") { text = "Rejected"; cls = "badge-danger"; }
+        else { text = "—"; cls = "badge-neutral"; }
+        return '<span class="badge ' + cls + '">' + text + "</span>";
+    }
+
     function avatarHtml(student, sizeClass) {
         const cls = sizeClass || "";
         if (student.profileImageUrl) {
@@ -118,6 +127,7 @@
             studentGrade9: s.studentGrade9 || s.grade9 || "",
             studentGrade11: s.studentGrade11 || s.grade11 || "",
             profileImageUrl: s.profileImageUrl || "",
+            studentStatus: s.studentStatus ?? s.StudentStatus,
         };
     }
 
@@ -242,6 +252,7 @@
             '<span><strong>Father:</strong> ' + esc(s.studentFatherPhone || "—") + "</span>" +
             '<span><strong>Mother:</strong> ' + esc(s.studentMotherPhone || "—") + "</span>" +
             "</div>" +
+            '<div class="student-status">' + statusBadge(s.studentStatus) + "</div>" +
             '<div class="student-card-actions">' +
             '<button class="btn btn-outline btn-sm btn-view">View</button>' +
             '<button class="btn btn-sm btn-edit">Edit</button>' +
@@ -379,6 +390,7 @@
         $("#student-mother-job").value = isEdit ? (student.studentMotherJob || "") : "";
         $("#student-grade9").value = isEdit ? (student.studentGrade9 || "") : "";
         $("#student-grade11").value = isEdit ? (student.studentGrade11 || "") : "";
+        $("#student-status").value = isEdit ? (student.studentStatus ?? "2") : "2";
 
         const preview = $("#student-photo-preview");
         $("#student-profile-url").value = isEdit ? (student.profileImageUrl || "") : "";
@@ -399,6 +411,7 @@
 
         const formData = new FormData();
         formData.append("StudentName", $("#student-name").value.trim());
+        formData.append("StudentStatus", $("#student-status").value);
         formData.append("StudentBirthPlace", $("#student-birth-place").value.trim());
         formData.append("StudentBirthDate", toDateTime($("#student-birth-date").value));
         formData.append("StudentAddress", $("#student-address").value.trim());
@@ -453,12 +466,13 @@
             '<div class="detail-head">' +
             avatarHtml(student) +
             "<div>" +
-            "<h4>" + esc(student.studentName) + "</h4>" +
+            "<h4>" + esc(student.studentName) + " " + statusBadge(student.studentStatus) + "</h4>" +
             "<p>" + esc(student.studentGrade9 || "") + (student.studentGrade11 ? " &middot; " + esc(student.studentGrade11) : "") + "</p>" +
             "</div>" +
             "</div>" +
             '<dl class="detail-grid">' +
             detailItem("ID", "#" + student.studentId) +
+            detailItem("Status", statusBadge(student.studentStatus)) +
             detailItem("Birth Place", student.studentBirthPlace) +
             detailItem("Birth Date", formatDate(student.studentBirthDate)) +
             detailItem("Address", student.studentAddress) +

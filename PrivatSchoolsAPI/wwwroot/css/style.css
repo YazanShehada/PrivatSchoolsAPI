@@ -462,6 +462,11 @@ a {
     font-size: 13px;
 }
 
+.student-card-body .student-status,
+.student-card > .student-status {
+    margin-top: 4px;
+}
+
 .avatar,
 .photo-preview {
     width: 56px;
@@ -846,6 +851,11 @@ a {
 .badge-neutral {
     background: #f1f5f9;
     color: #475569;
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
 }
 
 /* ==========================================================================

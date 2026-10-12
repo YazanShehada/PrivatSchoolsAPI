@@ -77,6 +77,8 @@
         return n.toLocaleString("ar-EG", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
     }
 
+   
+
     function toast(message, type) {
         var box = $("#toasts");
         if (!box) return;
@@ -104,6 +106,7 @@
             name: s.name || "",
             age: ageFrom(s.birthDate),
             profileImageUrl: s.profileImageUrl || "",
+            studentStatus: s.studentStatus ?? s.StudentStatus,
         };
     }
 
@@ -123,6 +126,7 @@
             avatarHtml(s) +
             '<div class="student-name">' + esc(s.name) + "</div>" +
             '<div class="student-meta">' + (meta ? esc(meta) : "—") + "</div>" +
+            '<div class="student-status">' + statusBadge(s.studentStatus) + "</div>" +
             "</div>" +
             "</button>"
         );

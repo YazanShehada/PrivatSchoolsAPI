@@ -3,10 +3,296 @@
 }
 
 <div class="page-head">
-    <h2>لوحة التحكم</h2>
+    <h2 id="page-title">Students</h2>
+    <button type="button" id="header-add-btn" class="btn btn-primary">+ Add Student</button>
 </div>
 
-<div class="empty">
-    <strong>قيد الإنشاء</strong>
-    لوحة التحكم — الأرقام والإحصائيات (إجمالي الطلاب، المدفوعات، الغياب).
+<!-- Stats -->
+<div id="stats" class="stat-grid"></div>
+
+<!-- Navigation tabs -->
+<ul class="nav nav-pills tab-pills mb-4" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-tab="students" type="button">Students</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-tab="payments" type="button">Payments</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-tab="absences" type="button">Absences</button>
+    </li>
+</ul>
+
+<!-- Students view -->
+<div class="view active" id="view-students">
+    <div class="search-wrap">
+        <input type="search" id="student-search" placeholder="Search students…" class="form-control" />
+        <span id="student-count" class="count-label"></span>
+    </div>
+    <div id="student-empty" class="empty" style="display:none">No students yet.</div>
+    <div id="student-grid" class="card-grid"></div>
 </div>
+
+<!-- Payments view -->
+<div class="view" id="view-payments" hidden>
+    <div class="search-wrap">
+        <input type="search" id="payment-search" placeholder="Search payments…" class="form-control" />
+        <span id="payment-count" class="count-label"></span>
+    </div>
+    <div id="payment-empty" class="empty" style="display:none">No payments yet.</div>
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="payment-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Absences view -->
+<div class="view" id="view-absences" hidden>
+    <div class="mb-3">
+        <select id="absence-student-select" class="form-select">
+            <option value="">-- Select a student --</option>
+        </select>
+    </div>
+    <div id="absence-empty" class="empty" style="display:none">Select a student to view their absence records.</div>
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="absence-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ===================== Modals ===================== -->
+
+<!-- Student Modal -->
+<div id="student-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="student-modal-title">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-box modal-lg">
+        <div class="modal-header">
+            <h3 id="student-modal-title">Add Student</h3>
+            <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+        </div>
+        <form id="student-form" enctype="multipart/form-data">
+            <input type="hidden" id="student-id" name="StudentId" />
+            <input type="hidden" id="student-profile-url" name="profileImageUrl" />
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="student-name">Student Name *</label>
+                    <input type="text" id="student-name" name="StudentName" required />
+                </div>
+
+                <div class="field">
+                    <label for="student-status">Status *</label>
+                    <select id="student-status" name="StudentStatus" required>
+                        <option value="2" selected>Pending</option>
+                        <option value="1">Approved</option>
+                        <option value="3">Rejected</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="student-birth-place">Birth Place *</label>
+                    <input type="text" id="student-birth-place" name="StudentBirthPlace" required />
+                </div>
+
+                <div class="field">
+                    <label for="student-birth-date">Birth Date *</label>
+                    <input type="date" id="student-birth-date" name="StudentBirthDate" required />
+                </div>
+
+                <div class="field span-2">
+                    <label for="student-address">Address</label>
+                    <input type="text" id="student-address" name="StudentAddress" />
+                </div>
+
+                <div class="field">
+                    <label for="student-phone">Phone Number</label>
+                    <input type="tel" id="student-phone" name="StudentPhoneNumber" />
+                </div>
+
+                <div class="field">
+                    <label for="student-home-phone">Home Phone</label>
+                    <input type="tel" id="student-home-phone" name="StudentHomePhone" />
+                </div>
+
+                <div class="field">
+                    <label for="student-mother-phone">Mother Phone</label>
+                    <input type="tel" id="student-mother-phone" name="StudentMotherPhone" />
+                </div>
+
+                <div class="field">
+                    <label for="student-father-phone">Father Phone</label>
+                    <input type="tel" id="student-father-phone" name="StudentFatherPhone" />
+                </div>
+
+                <div class="field">
+                    <label for="student-father-job">Father Job</label>
+                    <input type="text" id="student-father-job" name="StudentFatherJob" />
+                </div>
+
+                <div class="field">
+                    <label for="student-mother-job">Mother Job</label>
+                    <input type="text" id="student-mother-job" name="StudentMotherJob" />
+                </div>
+
+                <div class="field">
+                    <label for="student-grade9">Grade 9</label>
+                    <input type="text" id="student-grade9" name="StudentGrade9" />
+                </div>
+
+                <div class="field">
+                    <label for="student-grade11">Grade 11</label>
+                    <input type="text" id="student-grade11" name="StudentGrade11" />
+                </div>
+
+                <div class="field">
+                    <label for="student-image-input">Student Image</label>
+                    <input type="file" id="student-image-input" name="StudentImage" accept="image/*" />
+                </div>
+
+                <div class="field">
+                    <label>Photo Preview</label>
+                    <div>
+                        <img id="student-photo-preview" class="photo-preview" alt="Photo preview" hidden />
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i> Save
+                </button>
+                <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Student Detail Modal -->
+<div id="student-detail-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="student-detail-modal-title">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-box modal-lg">
+        <div class="modal-header">
+            <h3 id="student-modal-title">Student Details</h3>
+            <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+        </div>
+        <div id="student-detail-body" class="modal-body"></div>
+    </div>
+</div>
+
+<!-- Payment Modal -->
+<div id="payment-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="payment-modal-title">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="payment-modal-title">Add Payment</h3>
+            <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+        </div>
+        <form id="payment-form">
+            <input type="hidden" id="payment-id" name="PaymentId" />
+
+            <div id="payment-student-field" class="field">
+                <label for="payment-student-select">Student *</label>
+                <select id="payment-student-select" name="StudentId" required></select>
+            </div>
+
+            <div id="payment-date-field" class="field" style="display:none">
+                <label for="payment-date">Payment Date *</label>
+                <input type="date" id="payment-date" name="PaymentDate" required />
+            </div>
+
+            <div class="field">
+                <label for="payment-amount">Amount *</label>
+                <input type="number" id="payment-amount" name="Amount" step="0.01" min="0" required />
+            </div>
+
+            <div class="field">
+                <label for="payment-total">Total Amount</label>
+                <input type="number" id="payment-total" name="TotalAmount" step="0.01" min="0" />
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Absence Modal -->
+<div id="absence-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="absence-modal-title">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="absence-modal-title">Add Absence Record</h3>
+            <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+        </div>
+        <form id="absence-form">
+            <input type="hidden" id="absence-id" name="AbsenceId" />
+
+            <div id="absence-student-field" class="field">
+                <label for="absence-form-student-select">Student *</label>
+                <select id="absence-form-student-select" name="StudentId" required></select>
+            </div>
+
+            <div class="field">
+                <label for="absence-date">Date *</label>
+                <input type="date" id="absence-date" name="AbsenceDate" required />
+            </div>
+
+            <div class="field">
+                <label for="absence-result">Status *</label>
+                <select id="absence-result" name="Result" required>
+                    <option value="true" selected>Present</option>
+                    <option value="false">Absent</option>
+                </select>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Confirm Modal -->
+<div id="confirm-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-box modal-sm">
+        <div class="modal-header">
+            <h3 id="confirm-modal-title">Confirm</h3>
+            <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p id="confirm-message"></p>
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            <button type="button" id="confirm-btn" class="btn btn-danger">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<div id="toasts" class="toasts"></div>
+
+@section Scripts {
+    <script src="~/js/app.js" asp-append-version="true"></script>
+}

@@ -61,6 +61,7 @@
 
         var formData = new FormData();
         formData.append("StudentName", val("#student-name"));
+        
         formData.append("StudentBirthPlace", val("#student-birth-place"));
         formData.append("StudentBirthDate", toIso(val("#student-birth-date")));
         formData.append("StudentAddress", val("#student-address"));
